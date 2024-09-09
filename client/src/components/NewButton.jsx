@@ -1,14 +1,14 @@
 import { useNavigate, useLocation } from "react-router-dom";
+import useAuth from "../hooks/useAuth";
 
 const NewButton = ({ type, route }) => {
   const navigate = useNavigate();
-  const { pathname } = useLocation();
+  const { isAdmin } = useAuth();
 
   const handleNew = () => navigate(`/${route}/${type}/new`);
-  const ADMIN_REGEX = /^\/admin(\/)?$/;
   let content;
 
-  if (!ADMIN_REGEX.test(pathname)) {
+  if (isAdmin) {
     content = <button onClick={handleNew}>+</button>;
   } else {
     content = null;
