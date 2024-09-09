@@ -1,14 +1,14 @@
-const Product = require("../model/Product");
-const {
+import Product from "../model/Product.js";
+import {
   Update,
   AdminUpdate,
   AddUpdate,
   RemoveUpdate,
-} = require("../model/Update");
-const { format } = require("date-fns");
+} from "../model/Update.js";
+import { format } from "date-fns";
 
 //get list of products GET route '/'
-const getAllProducts = async (req, res) => {
+export const getAllProducts = async (req, res) => {
   const products = await Product.find().lean();
   if (!products || !products.length)
     return res.status(400).json({ message: "No products found." });
@@ -45,7 +45,7 @@ const getAllProducts = async (req, res) => {
 };
 
 //create a new product POST route '/'
-const createNewProduct = async (req, res) => {
+export const createNewProduct = async (req, res) => {
   if (
     !req?.body?.name ||
     !req?.body?.barcode ||
@@ -76,7 +76,7 @@ const createNewProduct = async (req, res) => {
 };
 
 //update a product PUT route '/'
-const updateProduct = async (req, res) => {
+export const updateProduct = async (req, res) => {
   if (!req?.body?.id) {
     return res.status(400).json({ message: "ID parameter is required" });
   }
@@ -97,7 +97,7 @@ const updateProduct = async (req, res) => {
 };
 
 //delete an existing product DELETE route '/'
-const deleteProduct = async (req, res) => {
+export const deleteProduct = async (req, res) => {
   if (!req?.body?.id)
     return res.status(400).json({ message: "product ID required." });
   const product = await Product.findOne({ _id: req.body.id }).exec();
@@ -109,11 +109,4 @@ const deleteProduct = async (req, res) => {
   const result = await Product.deleteOne({ _id: req.body.id });
 
   res.json(result);
-};
-
-module.exports = {
-  getAllProducts,
-  createNewProduct,
-  updateProduct,
-  deleteProduct,
 };

@@ -1,5 +1,5 @@
 //Update Schema
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
 const options = { discriminatorKey: String };
@@ -49,4 +49,4 @@ const RemoveUpdate = Update.discriminator("Remove", {
   difference: Number,
 });
 
-module.exports = { Update, AdminUpdate, AddUpdate, RemoveUpdate };
+export { Update, AdminUpdate, AddUpdate, RemoveUpdate };

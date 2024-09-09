@@ -1,8 +1,8 @@
-const User = require("../model/User");
-const bcrypt = require("bcrypt");
+import User from "../model/User.js";
+import bcrypt from "bcrypt";
 
 //get list of users GET route '/'
-const getAllUsers = async (req, res) => {
+export const getAllUsers = async (req, res) => {
   const users = await User.find();
   if (!users?.length)
     return res.status(204).json({ message: "No users found" });
@@ -12,7 +12,7 @@ const getAllUsers = async (req, res) => {
 //@desc create new user
 //@route POST /user
 //@access private
-const newUser = async (req, res) => {
+export const newUser = async (req, res) => {
   const { firstName, lastName, phone, email, username, password } = req.body;
   if (!firstName || !lastName || !phone || !email || !username || !password)
     return res
@@ -41,7 +41,7 @@ const newUser = async (req, res) => {
 };
 
 //update one user's info PUT route '/'
-const updateUserInfo = async (req, res) => {
+export const updateUserInfo = async (req, res) => {
   console.log(req.body);
   if (
     !req?.body?.id ||
@@ -94,7 +94,7 @@ const updateUserInfo = async (req, res) => {
   res.json({ message: `User ${updatedUser.username} updated` });
 };
 
-const deleteUser = async (req, res) => {
+export const deleteUser = async (req, res) => {
   if (!req?.body?.id)
     return res.status(400).json({ message: "User ID required" });
   const user = await User.findOne({ _id: req.body.id }).exec();
@@ -105,11 +105,4 @@ const deleteUser = async (req, res) => {
   }
   const result = await user.deleteOne({ _id: req.body.id });
   res.json(result);
-};
-
-module.exports = {
-  getAllUsers,
-  deleteUser,
-  updateUserInfo,
-  newUser,
 };

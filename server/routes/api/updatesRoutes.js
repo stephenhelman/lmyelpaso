@@ -1,15 +1,20 @@
-const express = require("express");
-const router = express.Router();
-const updatesController = require("../../controllers/updatesController");
+import express from "express";
+export const router = express.Router();
+import {
+  getAllUpdates,
+  createNewUpdate,
+  deleteUpdates,
+  createAdminUpdate,
+  createAddUpdate,
+  createRemoveUpdate,
+} from "../../controllers/updatesController.js";
 
 router
   .route("/")
-  .get(updatesController.getAllUpdates)
-  .post(updatesController.createNewUpdate)
-  .delete(updatesController.deleteUpdates);
+  .get(getAllUpdates)
+  .post(createNewUpdate)
+  .delete(deleteUpdates);
 
-router.route("/admin").post(updatesController.createAdminUpdate);
-router.route("/add").post(updatesController.createAddUpdate);
-router.route("/remove").post(updatesController.createRemoveUpdate);
-
-module.exports = router;
+router.route("/admin").post(createAdminUpdate);
+router.route("/add").post(createAddUpdate);
+router.route("/remove").post(createRemoveUpdate);

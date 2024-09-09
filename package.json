@@ -1,12 +1,13 @@
 {
   "name": "lmyelpaso-api",
   "version": "1.0.0",
+  "type": "module",
   "description": "",
   "main": "server.js",
   "scripts": {
     "dev": "NODE_ENV=development nodemon server/server.js",
     "build": "npm install && npm install --prefix client && npm run build --prefix client",
-    "start": "MODE_ENV=production node server/server.js"
+    "start": "NODE_ENV=production node server/server.js"
   },
   "author": "",
   "license": "ISC",
@@ -27,8 +28,5 @@
   },
   "devDependencies": {
     "nodemon": "^3.1.0"
-  },
-  "engines": {
-    "node": "v20.16.0"
   }
 }

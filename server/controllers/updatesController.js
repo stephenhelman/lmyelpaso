@@ -1,15 +1,15 @@
-const {
+import {
   Update,
   AdminUpdate,
   AddUpdate,
   RemoveUpdate,
-} = require("../model/Update");
-const { format } = require("date-fns");
-const User = require("../model/User");
-const Product = require("../model/Product");
+} from "../model/Update.js";
+import { format } from "date-fns";
+import User from "../model/User.js";
+import Product from "../model/Product.js";
 
 //get list of updates GET route '/'
-const getAllUpdates = async (req, res) => {
+export const getAllUpdates = async (req, res) => {
   const updates = await Update.find().lean();
   if (!updates?.length)
     return res.status(400).json({ message: "No updates found." });
@@ -28,7 +28,7 @@ const getAllUpdates = async (req, res) => {
 };
 
 //create a new update POST route '/'
-const createNewUpdate = async (req, res) => {
+export const createNewUpdate = async (req, res) => {
   if (!req?.body?.product || !req?.body?.user || !req?.body?.message) {
     return res.status(400).json({
       message: "All fields are required",
@@ -53,7 +53,7 @@ const createNewUpdate = async (req, res) => {
 //@desc Delete updates associated with product
 //@route DELETE /updates
 //@access private
-const deleteUpdates = async (req, res) => {
+export const deleteUpdates = async (req, res) => {
   if (!req?.body?.id)
     return res.status(400).json({ message: "product ID required." });
   const updates = await Update.find({ user: req.body.id }).exec();
@@ -70,7 +70,7 @@ const deleteUpdates = async (req, res) => {
 //@desc create admin update
 //@route
 //@access
-const createAdminUpdate = async (req, res) => {
+export const createAdminUpdate = async (req, res) => {
   if (
     !req?.body?.product ||
     !req?.body?.user ||
@@ -105,7 +105,7 @@ const createAdminUpdate = async (req, res) => {
 //@desc create add update
 //@route
 //@access
-const createAddUpdate = async (req, res) => {
+export const createAddUpdate = async (req, res) => {
   if (
     !req?.body?.product ||
     !req?.body?.user ||
@@ -141,7 +141,7 @@ const createAddUpdate = async (req, res) => {
 //@desc create remove update
 //@route
 //@access
-const createRemoveUpdate = async (req, res) => {
+export const createRemoveUpdate = async (req, res) => {
   if (
     !req?.body?.product ||
     !req?.body?.user ||
@@ -172,13 +172,4 @@ const createRemoveUpdate = async (req, res) => {
   } catch (error) {
     console.log(error);
   }
-};
-
-module.exports = {
-  getAllUpdates,
-  createNewUpdate,
-  deleteUpdates,
-  createAdminUpdate,
-  createAddUpdate,
-  createRemoveUpdate,
 };

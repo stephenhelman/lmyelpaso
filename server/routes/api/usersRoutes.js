@@ -1,17 +1,21 @@
-const express = require("express");
-const router = express.Router();
-const usersController = require("../../controllers/usersController");
-const ROLES_LIST = require("../../config/roles_list");
-const verifyRoles = require("../../middleware/verifyRoles");
+import express from "express";
+export const router = express.Router();
+import {
+  getAllUsers,
+  newUser,
+  updateUserInfo,
+  deleteUser,
+} from "../../controllers/usersController.js";
+
+import { ROLES_LIST } from "../../config/roles_list.js";
+import { verifyRoles } from "../../middleware/verifyRoles.js";
 
 router
   .route("/")
-  .get(/* verifyRoles(ROLES_LIST.Admin), */ usersController.getAllUsers)
-  .post(usersController.newUser)
+  .get(/* verifyRoles(ROLES_LIST.Admin), */ getAllUsers)
+  .post(newUser)
   .put(
     /* verifyRoles(ROLES_LIST.Manager, ROLES_LIST.Admin), */
-    usersController.updateUserInfo
+    updateUserInfo
   )
-  .delete(/* verifyRoles(ROLES_LIST.Admin), */ usersController.deleteUser);
-
-module.exports = router;
+  .delete(/* verifyRoles(ROLES_LIST.Admin), */ deleteUser);

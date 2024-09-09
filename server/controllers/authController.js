@@ -1,11 +1,11 @@
-const User = require("../model/User");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+import User from "../model/User.js";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 //@desc login user
 //@route POST /auth/login
 //@access public
-const login = async (req, res) => {
+export const login = async (req, res) => {
   const { username, password } = req.body;
   if (!username || !password)
     return res
@@ -15,11 +15,9 @@ const login = async (req, res) => {
   const foundUser = await User.findOne({ username: username }).exec();
 
   if (!foundUser || !foundUser?.active) {
-    return res
-      .status(401)
-      .json({
-        message: "Issues with account, please contact an administrator",
-      });
+    return res.status(401).json({
+      message: "Issues with account, please contact an administrator",
+    });
   }
 
   // evaluate password
@@ -65,7 +63,7 @@ const login = async (req, res) => {
 //@desc logout user
 //@route POST /auth/logout
 //@access private
-const logout = async (req, res) => {
+export const logout = async (req, res) => {
   // On client, also delete the accessToken
 
   const cookies = req.cookies;
@@ -90,7 +88,7 @@ const logout = async (req, res) => {
 //@desc refresh current access token
 //@route POST /auth/refresh
 //@access private
-const refresh = async (req, res) => {
+export const refresh = async (req, res) => {
   const cookies = req.cookies;
   if (!cookies?.jwt) return res.sendStatus(401);
   const refreshToken = cookies.jwt;
@@ -117,5 +115,3 @@ const refresh = async (req, res) => {
     res.json({ roles, accessToken, id: _id });
   });
 };
-
-module.exports = { login, logout, refresh };
